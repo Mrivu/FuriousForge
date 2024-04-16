@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmhyhukkcj7u4"]
+[gd_scene load_steps=8 format=3 uid="uid://cmhyhukkcj7u4"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_44pia"]
-[ext_resource type="Texture2D" uid="uid://cfgwn7a7jp4gt" path="res://icon.svg" id="1_xvq8l"]
+[ext_resource type="Texture2D" uid="uid://loinx6732s10" path="res://Dwarf/DR.png" id="2_otrml"]
 [ext_resource type="Texture2D" uid="uid://dadrujhqhm3et" path="res://Platforms.png" id="3_5ttku"]
+[ext_resource type="Script" path="res://SpriteHandler.gd" id="3_xyc4c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gmeo"]
-size = Vector2(124, 126)
+size = Vector2(31, 30)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mwb2h"]
 texture = ExtResource("3_5ttku")
@@ -28,6 +29,7 @@ texture = ExtResource("3_5ttku")
 4:0/0 = 0
 4:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 4:0/0/physics_layer_0/angular_velocity = 0.0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 5:1/0 = 0
 5:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 5:1/0/physics_layer_0/angular_velocity = 0.0
@@ -133,17 +135,30 @@ sources/0 = SubResource("TileSetAtlasSource_mwb2h")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(300, 0)
+scale = Vector2(1.4, 1.4)
 script = ExtResource("1_44pia")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(1, 0)
+position = Vector2(0.5, 1)
 shape = SubResource("RectangleShape2D_4gmeo")
 
 [node name="pSprite" type="Sprite2D" parent="Player"]
-texture = ExtResource("1_xvq8l")
+texture = ExtResource("2_otrml")
+script = ExtResource("3_xyc4c")
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="DrinkDuration" type="Timer" parent="Player"]
+
+[node name="Terrain" type="TileMap" parent="."]
 scale = Vector2(2, 2)
 tile_set = SubResource("TileSet_pqa6e")
 format = 2
 layer_0/tile_data = PackedInt32Array(917513, 0, 0, 917514, 196608, 0, 917515, 196608, 0, 917516, 196608, 0, 917517, 196608, 0, 917518, 196608, 0, 917519, 196608, 0, 917520, 196608, 0, 917521, 196608, 0, 917522, 196608, 0, 917523, 196608, 0, 917524, 196608, 0, 917525, 262144, 0)
+
+[node name="DText" type="TextEdit" parent="."]
+offset_left = 27.0
+offset_top = 20.0
+offset_right = 156.0
+offset_bottom = 55.0
+text = "Drunk : 0s"
+
+[connection signal="timeout" from="Player/DrinkDuration" to="Player" method="_on_drink_duration_timeout"]
