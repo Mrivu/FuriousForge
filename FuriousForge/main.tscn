@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cmhyhukkcj7u4"]
+[gd_scene load_steps=15 format=3 uid="uid://cmhyhukkcj7u4"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_44pia"]
 [ext_resource type="Texture2D" uid="uid://loinx6732s10" path="res://Dwarf/DR.png" id="2_otrml"]
@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://toc30hxkb0qm" path="res://Buttons/W.png" id="5_j57su"]
 [ext_resource type="Script" path="res://Tip.gd" id="5_yqobd"]
 [ext_resource type="Texture2D" uid="uid://chjfvcx417bkw" path="res://BGFF.png" id="6_gue0n"]
-[ext_resource type="Texture2D" uid="uid://0eeihyg13mdd" path="res://Anvil.png" id="6_kneo1"]
+[ext_resource type="Texture2D" uid="uid://bxor3kpcxfkpf" path="res://Forges/ForgeOff.png" id="7_ewwos"]
+[ext_resource type="Script" path="res://Anvil.gd" id="8_jacyn"]
+[ext_resource type="Script" path="res://BGTip.gd" id="10_spmmf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gmeo"]
 size = Vector2(31, 30)
@@ -136,7 +138,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_mwb2h")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_irwb3"]
-size = Vector2(71, 39)
+size = Vector2(131, 82)
 
 [node name="Main" type="Node2D"]
 
@@ -150,12 +152,14 @@ position = Vector2(0.5, 1)
 shape = SubResource("RectangleShape2D_4gmeo")
 
 [node name="pSprite" type="Sprite2D" parent="Player"]
+z_index = 2
 texture = ExtResource("2_otrml")
 script = ExtResource("3_xyc4c")
 
 [node name="DrinkDuration" type="Timer" parent="Player"]
 
 [node name="Tip" type="Sprite2D" parent="Player"]
+z_index = 2
 position = Vector2(0, -30)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("5_j57su")
@@ -175,19 +179,17 @@ offset_bottom = 55.0
 text = "Drunk : 0s"
 
 [node name="AnvilArea" type="Area2D" parent="."]
-position = Vector2(631, 432)
+z_index = -1
+position = Vector2(637, 382)
 
 [node name="Anvil" type="Sprite2D" parent="AnvilArea"]
 z_index = 1
 scale = Vector2(2, 2)
-texture = ExtResource("6_kneo1")
+texture = ExtResource("7_ewwos")
+script = ExtResource("8_jacyn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnvilArea"]
-position = Vector2(0.5, -7.5)
-shape = SubResource("RectangleShape2D_irwb3")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="AnvilArea"]
-position = Vector2(0.5, -7.5)
+position = Vector2(-0.5, 23)
 shape = SubResource("RectangleShape2D_irwb3")
 
 [node name="Bgff" type="Sprite2D" parent="."]
@@ -196,7 +198,27 @@ position = Vector2(576, 324)
 scale = Vector2(1.47692, 1.35)
 texture = ExtResource("6_gue0n")
 
+[node name="BGTip" type="RichTextLabel" parent="Bgff"]
+offset_left = -201.094
+offset_top = 189.63
+offset_right = 250.906
+offset_bottom = 229.63
+text = "TIP: The FORGE isn't on yet, activate all components"
+scroll_active = false
+script = ExtResource("10_spmmf")
+
+[node name="TipTimer" type="Timer" parent="Bgff/BGTip"]
+wait_time = 2.0
+
+[node name="StageText" type="TextEdit" parent="."]
+offset_left = 27.0
+offset_top = 58.0
+offset_right = 112.0
+offset_bottom = 94.0
+text = "Stage - 0"
+
 [connection signal="timeout" from="Player/DrinkDuration" to="Player" method="_on_drink_duration_timeout"]
 [connection signal="area_entered" from="AnvilArea" to="Player/Tip" method="_on_anvil_area_area_entered"]
 [connection signal="body_entered" from="AnvilArea" to="Player/Tip" method="_on_anvil_area_body_entered"]
 [connection signal="body_exited" from="AnvilArea" to="Player/Tip" method="_on_anvil_area_body_exited"]
+[connection signal="timeout" from="Bgff/BGTip/TipTimer" to="Bgff/BGTip" method="_on_tip_timer_timeout"]

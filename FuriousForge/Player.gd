@@ -4,11 +4,15 @@ extends CharacterBody2D
 var pSprite = null
 var DDTimer = null
 var DText = null
+var pTip = null
+var BGTip = null
 
 func _ready():
 	pSprite = get_node("pSprite")
 	DDTimer = get_node("DrinkDuration")
 	DText = get_node("../DText")
+	pTip = get_node("Tip")
+	BGTip = get_node("../Bgff/BGTip")
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
@@ -35,7 +39,9 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("DRINK") and is_on_floor():
 		drinking = true
 		DDTimer.start()
-		
+
+	if Input.is_action_just_pressed("USE") and is_on_floor() and pTip.atForge:
+		BGTip.ChangeTip("forgeOff")
 
 	var direction = Input.get_axis("A", "S")
 	if Input.is_action_pressed("A"):
