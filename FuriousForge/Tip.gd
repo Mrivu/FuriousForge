@@ -5,6 +5,8 @@ var atForge = false
 var atToggle = false
 var player = null
 
+var atLoc = null
+
 func _ready():
 	pCol = get_node("../CollisionShape2D")
 	player = get_node("../../Player")
@@ -19,7 +21,6 @@ func _process(delta):
 
 func _on_anvil_area_body_entered(pCol):
 	atForge = true
-	print("wow")
 	self.show()
 
 func _on_anvil_area_body_exited(pCol):
@@ -27,11 +28,11 @@ func _on_anvil_area_body_exited(pCol):
 	self.hide()
 
 
-func _on_toggle_area_body_entered(body):
+func _on_toggle_1_area_body_entered(body):
 	if !player.is_on_floor():
 		atToggle = true
 		self.show()
 
-func _on_toggle_area_body_exited(body):
+func _on_toggle_1_area_body_exited(body):
 	atToggle = false
 	self.hide()

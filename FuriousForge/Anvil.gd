@@ -7,7 +7,7 @@ func _ready():
 	self.texture = off
 
 func _physics_process(delta):
-	if Global.components[Global.currentLevel] <= 0:
+	if Global.components[Global.currentLevel] <= Global.activeComponents:
 		self.texture = on
 	else:
 		self.texture = off

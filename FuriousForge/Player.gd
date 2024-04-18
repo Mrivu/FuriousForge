@@ -23,6 +23,7 @@ var right = true
 var drinking = false
 var drinkTime = 0
 var drunk = false
+var hanging = false
 
 func _physics_process(delta):
 	DText.text = "Drunk : " + str(snapped(drinkTime, 0.1))
@@ -36,50 +37,61 @@ func _physics_process(delta):
 
 	if Input.is_action_just_pressed("JUMP") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
-	
+	elif Input.is_action_just_pressed("JUMP") and hanging:
+		velocity.y = JUMP_VELOCITY
+		hanging = false
+
 	if Input.is_action_just_pressed("DRINK") and is_on_floor():
 		drinking = true
 		DDTimer.start()
 
 	if Input.is_action_just_pressed("USE") and is_on_floor() and pTip.atForge:
-		if Global.components[Global.currentLevel] > 0:
+		if Global.components[Global.currentLevel] > Global.activeComponents:
 			BGTip.ChangeTip("forgeOff")
 		else:
 			print("Victory")
 			Global.currentLevel += 1
+			Global.activeComponents = 0
 
 	if Input.is_action_just_pressed("USE") and !is_on_floor() and pTip.atToggle:
-		print("Pullesd")
+		hanging = true
+		self.position = Vector2(Toggles.TogglePos1.x,Toggles.TogglePos1.y + 35)
+		if !Toggles.Tog1On:
+			Toggles.Tog1On = true
+			Global.activeComponents += 1
 
 	var direction = Input.get_axis("A", "S")
 	if Input.is_action_pressed("A"):
 		right = false
-		if is_on_floor():
-			if drunk:
-				velocity.x -= SPEED*delta*Friction
+		if !hanging:
+			if is_on_floor():
+				if drunk:
+					velocity.x -= SPEED*delta*Friction
+				else:
+					position.x -= SPEED*Friction*0.01
 			else:
-				position.x -= SPEED*Friction*0.01
-		else:
-			if drunk:
-				velocity.x -= SPEED*delta
-			else:
-				position.x -= SPEED*0.01
+				if drunk:
+					velocity.x -= SPEED*delta
+				else:
+					position.x -= SPEED*0.01
 	elif Input.is_action_pressed("S"):
 		right = true
-		if is_on_floor():
-			if drunk:
-				velocity.x += SPEED*delta*Friction
+		if !hanging:
+			if is_on_floor():
+				if drunk:
+					velocity.x += SPEED*delta*Friction
+				else:
+					position.x += SPEED*Friction*0.01
 			else:
-				position.x += SPEED*Friction*0.01
-		else:
-			if drunk:
-				velocity.x += SPEED*delta
-			else:
-				position.x += SPEED*0.01
+				if drunk:
+					velocity.x += SPEED*delta
+				else:
+					position.x += SPEED*0.01
 	else:
 		velocity.x = velocity.x * 0.97
 	ChangeSprite()
-	move_and_slide()
+	if !hanging:
+		move_and_slide()
 
 func ChangeSprite():
 	if not is_on_floor():
