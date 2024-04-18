@@ -1,6 +1,5 @@
 extends Node
 
-var forgeComponents = 0
 var currentLevel = 0
 
-var components = [8,0,1]
+var components = [0,0,1,1]

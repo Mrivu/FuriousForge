@@ -6,6 +6,7 @@ var DDTimer = null
 var DText = null
 var pTip = null
 var BGTip = null
+var global = preload("res://Global.gd")
 
 func _ready():
 	pSprite = get_node("pSprite")
@@ -41,7 +42,14 @@ func _physics_process(delta):
 		DDTimer.start()
 
 	if Input.is_action_just_pressed("USE") and is_on_floor() and pTip.atForge:
-		BGTip.ChangeTip("forgeOff")
+		if Global.components[Global.currentLevel] > 0:
+			BGTip.ChangeTip("forgeOff")
+		else:
+			print("Victory")
+			Global.currentLevel += 1
+
+	if Input.is_action_just_pressed("USE") and !is_on_floor() and pTip.atToggle:
+		print("Pullesd")
 
 	var direction = Input.get_axis("A", "S")
 	if Input.is_action_pressed("A"):
