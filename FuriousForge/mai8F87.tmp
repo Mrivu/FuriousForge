@@ -156,7 +156,7 @@ size = Vector2(52, 41)
 
 [node name="Toggle1Area" type="Area2D" parent="."]
 z_index = -1
-position = Vector2(320, 352)
+position = Vector2(327, 360)
 
 [node name="Toggle1" type="Sprite2D" parent="Toggle1Area"]
 z_index = 1
@@ -195,7 +195,7 @@ script = ExtResource("5_yqobd")
 scale = Vector2(2, 2)
 tile_set = SubResource("TileSet_pqa6e")
 format = 2
-layer_0/tile_data = PackedInt32Array(917513, 0, 0, 917514, 196608, 0, 917515, 196608, 0, 917516, 196608, 0, 917517, 196608, 0, 917518, 196608, 0, 917519, 196608, 0, 917520, 196608, 0, 917521, 196608, 0, 917522, 196608, 0, 917523, 196608, 0, 917524, 196608, 0, 917525, 262144, 0, 589833, 0, 0, 589834, 262144, 0)
+layer_0/tile_data = PackedInt32Array(917513, 0, 0, 917514, 196608, 0, 917515, 196608, 0, 917516, 196608, 0, 917517, 196608, 0, 917518, 196608, 0, 917519, 196608, 0, 917520, 196608, 0, 917521, 196608, 0, 917522, 196608, 0, 917523, 196608, 0, 917524, 196608, 0, 917525, 262144, 0)
 
 [node name="DText" type="TextEdit" parent="."]
 offset_left = 27.0
