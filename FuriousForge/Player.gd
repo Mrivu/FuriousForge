@@ -53,11 +53,16 @@ func _physics_process(delta):
 			Global.currentLevel += 1
 			Global.activeComponents = 0
 
-	if Input.is_action_just_pressed("USE") and !is_on_floor() and pTip.atToggle:
+	if Input.is_action_just_pressed("USE") and !is_on_floor() and pTip.atToggle1:
 		hanging = true
 		self.position = Vector2(Toggles.TogglePos1.x,Toggles.TogglePos1.y + 35)
 		if !Toggles.Tog1On:
 			Toggles.Tog1On = true
+			Global.activeComponents += 1
+
+	if Input.is_action_just_pressed("USE") and is_on_floor() and pTip.atToggle2:
+		if !Toggles.Tog2On:
+			Toggles.Tog2On = true
 			Global.activeComponents += 1
 
 	var direction = Input.get_axis("A", "S")
