@@ -8,6 +8,11 @@ var player = null
 
 var atLoc = null
 
+func Reset():
+	atForge = false
+	atToggle1 = false
+	atToggle2 = false
+
 func _ready():
 	pCol = get_node("../CollisionShape2D")
 	player = get_node("../../Player")

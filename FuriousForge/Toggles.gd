@@ -9,3 +9,7 @@ func _ready():
 	TogglePos1 = get_node("/root/Main/Toggle1Area").position
 	# +35 y for on pos
 	TogglePos2 = get_node("/root/Main/Toggle2Area").position
+
+func Reset():
+	Tog1On = false
+	Tog2On = false

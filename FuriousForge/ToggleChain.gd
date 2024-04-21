@@ -15,6 +15,10 @@ func _physics_process(delta):
 	if self.name == "Toggle1":
 		if Toggles.Tog1On:
 			self.texture = OnC
+		else:
+			self.texture = OffC
 	elif self.name == "Toggle2":
 		if Toggles.Tog2On:
 			self.texture = OnL
+		else:
+			self.texture = OffL

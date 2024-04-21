@@ -26,6 +26,22 @@ var drunk = false
 var hanging = false
 
 func _physics_process(delta):
+	if self.position.x > 1200 or self.position.x < 0:
+		self.position = Vector2(150,0)
+		velocity.y = 0
+		velocity.x = 0
+		drinkTime = 0
+		drunk = false
+		Toggles.Reset()
+		Global.activeComponents = 0
+	if self.position.y > 850 or self.position.y < 0:
+		self.position = Vector2(150,0)
+		velocity.y = 0
+		velocity.x = 0
+		drinkTime = 0
+		drunk = false
+		Toggles.Reset()
+		Global.activeComponents = 0
 	DText.text = "Drunk : " + str(snapped(drinkTime, 0.1))
 	if drinkTime > 0:
 		drinkTime -= delta
@@ -50,8 +66,7 @@ func _physics_process(delta):
 			BGTip.ChangeTip("forgeOff")
 		else:
 			print("Victory")
-			Global.currentLevel += 1
-			Global.activeComponents = 0
+			Global.NextScene()
 
 	if Input.is_action_just_pressed("USE") and !is_on_floor() and pTip.atToggle1:
 		hanging = true
@@ -64,6 +79,7 @@ func _physics_process(delta):
 		if !Toggles.Tog2On:
 			Toggles.Tog2On = true
 			Global.activeComponents += 1
+			print("Check")
 
 	var direction = Input.get_axis("A", "S")
 	if Input.is_action_pressed("A"):
